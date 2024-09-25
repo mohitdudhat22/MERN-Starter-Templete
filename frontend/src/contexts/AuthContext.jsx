@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-
+import { login, register } from '../services/api';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -25,31 +25,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Error fetching user:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const login = async (email, password) => {
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { email, password });
-      localStorage.setItem('token', res.data.token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-      await fetchUser();
-      return true;
-    } catch (error) {
-      console.error('Login error:', error);
-      return false;
-    }
-  };
-  const register = async (email, password, username, role) => {
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/register`, { email, password, username, role });
-      localStorage.setItem('token', res.data.token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-      await fetchUser();
-      return true;
-    } catch (error) {
-      console.error('Registration error:', error);
-      return false;
     }
   };
 

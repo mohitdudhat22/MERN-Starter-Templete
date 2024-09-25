@@ -9,16 +9,30 @@ export const setAuthToken = (token) => {
 };
 
 export const login = async (email, password) => {
-  const response = await axios.post('/api/auth/login', { email, password });
-  return response.data;
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { email, password });
+    localStorage.setItem('token', res.data.token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+    return true;
+  } catch (error) {
+    console.error('Login error:', error);
+    return false;
+  }
 };
 
 export const register = async (email, password) => {
-  const response = await axios.post('/api/auth/register', { email, password });
-  return response.data;
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/register`, { email, password, username, role });
+    localStorage.setItem('token', res.data.token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+    return true;
+  } catch (error) {
+    console.error('Registration error:', error);
+    return false;
+  }
 };
 
 export const getUserProfile = async () => {
-  const response = await axios.get('/api/users/profile');
+  const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/profile`);
   return response.data;
 };

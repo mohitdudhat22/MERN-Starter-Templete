@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+import DashboardLayoutBranding from './components/DashboardLayoutBranding';
 import { useAuth } from './contexts/AuthContext';
 import Register from './components/Register';
-
+    
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
   
@@ -25,7 +25,7 @@ function App() {
           path="/dashboard"
           element={
             // <PrivateRoute>
-              <Dashboard />
+              <DashboardLayoutBranding />
             // </PrivateRoute>
           }
         />

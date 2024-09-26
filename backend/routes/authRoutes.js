@@ -1,7 +1,7 @@
 import express from 'express';
-const { body, validationResult } = require('express-validator');
+import { body,validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-
+import userModel from "../models/userModel.js";
 const router = express.Router();
 /**
  * @swagger
@@ -42,15 +42,21 @@ router.post('/register', [
   }
 
   try {
-    const { email, password } = req.body;
-    let user = await User.findOne({ email });
+    const { username ,email, password } = req.body;
+    let user = await userModel.findOne({ email });
     if (user) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    user = new User({ email, password });
-    await user.save();
+    user = new userModel({username, email, password });
+    console.log(user, ">>>>>>>>>>>>>>>>>>>>>>>>>>>> user form register");
+    try {
+      await user.save();
+    } catch (error) {
+      console.error("Error saving user: ", error);
+      throw error;
+    }
     
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
     res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -92,12 +98,12 @@ router.post('/login', [
 
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await userModel.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });

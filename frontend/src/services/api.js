@@ -1,5 +1,11 @@
 import axios from 'axios';
+import dotenv from 'dotenv'
 
+
+// Load .env file in the testing or development environment
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 export const setAuthToken = (token) => {
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

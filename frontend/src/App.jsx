@@ -17,8 +17,9 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
@@ -31,7 +32,7 @@ function App() {
         />
         <Route path="/" element={<Navigate to="/dashboard" />} />
       </Routes>
-    </Router>
+    <BrowserRouter>
   );
 }
 

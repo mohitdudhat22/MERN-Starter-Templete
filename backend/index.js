@@ -4,6 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dbConnect from './config/dbConnect.js';
 import {swaggerUi, swaggerDocs} from './utils/swagger.js';
+import morgan from 'morgan';
 const app = express();
 const PORT = process.env.PORT || 8080;
 // Load environment variables and connect to database

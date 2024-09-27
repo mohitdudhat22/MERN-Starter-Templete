@@ -9,7 +9,7 @@ import authRoutes from './routes/authRoutes.js';
 // import usersRoutes from './routes/userRoutes.js';
 import authMiddleware from './middlewares/authMiddleware.js';
 import dotenv from 'dotenv';
-
+import compression from 'compression';
 const app = express();
 
 // Load environment variables
@@ -28,6 +28,7 @@ app.use(express.static('public'));
 app.use(cookieParser());
 app.use(helmet());
 app.use(morgan('dev'));
+app.use(compression());
 
 app.use('/api/auth', authRoutes);
 // app.use('/api/users',authMiddleware ,usersRoutes);

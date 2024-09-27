@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useAuth } from '../contexts/AuthContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Login from '../components/Login';
+import { expect } from 'vitest';
 
 // Mock the useAuth context using Vitest
 vi.mock('../contexts/AuthContext', () => ({
@@ -12,9 +13,9 @@ vi.mock('../contexts/AuthContext', () => ({
   }));
   
   describe('Login Component', () => {
-    const mockLogin = useAuth().login; // Get the mocked login function
-  
+    let mockLogin  
     beforeEach(() => {
+        mockLogin = useAuth().login; // Get the mocked login function
       render(
         <Router>
           <Login />
@@ -26,23 +27,28 @@ vi.mock('../contexts/AuthContext', () => ({
         expect(screen.getByPlaceholderText(/Email/i)).toBeInTheDocument();
         expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
         expect(screen.getByText(/User Login/i)).toBeInTheDocument();
+        // expect(screen.getByRole('button', { name: /Login/i })).toBeInTheDocument();
+        expect(screen.getByText('dont have an account?'));
     });
 
     test('submits the form with correct credentials', async () => {
         mockLogin.mockResolvedValue(true); // Simulate successful login
-      
+    
         // Simulate entering credentials
         fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'mohit@gmail.com' } });
         fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'password123' } });
+        
         // Simulate clicking the login button using getByRole
         fireEvent.click(screen.getByRole('button', { name: /Login/i }));
-      
-        console.log(mockLogin.mock.calls); 
+    
+        // Log the calls to the mock function
+        console.log(mockLogin); 
+    
         // Ensure the mockLogin function is called with correct arguments
         await waitFor(() => {
           expect(mockLogin).toHaveBeenCalledWith('mohit@gmail.com', 'password123');
         });
-      });
+    });
       
   
     // test('shows error on failed login', async () => {

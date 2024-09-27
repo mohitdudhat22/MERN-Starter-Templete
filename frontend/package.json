@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-     "test": "vitest",
+    "test": "vitest",
     "coverage": "vitest run --coverage",
     "preview": "vite preview"
   },
@@ -20,8 +20,10 @@
     "@mui/styled-engine-sc": "^6.1.1",
     "@toolpad/core": "^0.7.0",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.4",
     "dotenv": "^16.4.5",
     "react": "^17.0.0 || ^18.0.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^17.0.0 || ^18.0.0",
     "react-router-dom": "^6.26.2",
     "styled-components": "^6.1.13"
